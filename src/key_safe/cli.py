@@ -13,7 +13,7 @@ def store(args: argparse.Namespace) -> None:
             storage.create_safe_file(f)
         os.chmod(constants.SAFE_FILE, 0o600)
 
-    with open(constants.SAFE_FILE, "w") as f:
+    with open(constants.SAFE_FILE, "r+") as f:
         storage.store_token(f, args.name, encryption.encrypt(token, password))
     del token
     del password
