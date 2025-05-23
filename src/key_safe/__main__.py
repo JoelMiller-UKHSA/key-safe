@@ -1,6 +1,6 @@
 import argparse
 
-from key_safe.cli import store, retrieve
+from key_safe.cli import store, retrieve, list_keys
 
 
 def main() -> None:
@@ -16,12 +16,16 @@ def main() -> None:
     )
     retrieve_parser.add_argument("name", help="Name of the secret to retrieve.")
 
+    list_parser = subparser.add_parser(name="list", help="List the names of currently stored secrets.")
+
     args = parser.parse_args()
     match args.command:
         case "store":
             store(args)
         case "retrieve":
             retrieve(args)
+        case "list":
+            list_keys(args)
         case _:
             raise NotImplementedError
 

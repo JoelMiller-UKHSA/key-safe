@@ -26,3 +26,11 @@ def retrieve(args: argparse.Namespace) -> None:
         storage.retrieve_token(f, args.name, password)
     del password
     print(f"{args.name} was copied to the clipboard")
+
+
+def list_keys(args: argparse.Namespace) -> None:
+    with open(constants.SAFE_FILE, "r") as f:
+       keys = storage.list_token_names(f)
+    print("Keys Stored:")
+    for k in keys:
+        print(f" -{k}")
