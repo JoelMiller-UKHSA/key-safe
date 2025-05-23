@@ -29,7 +29,7 @@ def test_store_token() -> None:
 
 
 def test_retrieve_token(monkeypatch) -> None:
-    monkeypatch.setattr("key_safe.encryption.decrypt", lambda x, _: f"{x}_decrypted")
+    monkeypatch.setattr("key_safe.encryption.decrypt", lambda x, _: f"{x.decode()}_decrypted")
     mock_file = StringIO(
         dedent(
             """
@@ -41,3 +41,18 @@ def test_retrieve_token(monkeypatch) -> None:
     storage.retrieve_token(mock_file, "test", "mock_password")
 
     assert pyperclip.paste() == "token_decrypted"
+
+
+def test_list_token_names() -> None:
+    mock_file = StringIO(
+        dedent(
+            """
+        ["Key Safe"]
+        test1 = "dG9rZW4="
+        test2 = "dG9rZW4="
+        """
+        )
+    )
+    names = storage.list_token_names(mock_file)
+
+    assert names == ["test1", "test2"]
