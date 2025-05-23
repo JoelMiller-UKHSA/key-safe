@@ -24,3 +24,9 @@ def retrieve_token(file: TextIO, name: str, password: str) -> None:
     safe = tomlkit.load(file)
     token = base64.b64decode(safe["Key Safe"][name].encode())
     pyperclip.copy(encryption.decrypt(token, password))
+
+
+def list_token_names(file: TextIO) -> list[str]:
+    safe = tomlkit.load(file)
+    return [n for n in safe["Key Safe"]]
+
